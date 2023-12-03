@@ -33,6 +33,7 @@ for index,row in data.iterrows():
         contains_target_word+=1
     else:
         target_word_not_found+=1
+        print(target_word, text)
 print("Total rows : ",total_rows)
 print("Rows containing target word : ",contains_target_word)
 print("Rows not containing target word : ",target_word_not_found)

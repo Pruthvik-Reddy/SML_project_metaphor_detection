@@ -22,6 +22,17 @@ metaphor_id={
 6: "boat"
 }
 
+plurals={
+0: "roads",
+1: "candles",
+2: "lights",
+3: "spices",
+4: "rides",
+5: "trains",
+6: "boats"
+
+}
+
 contains_target_word=0
 target_word_not_found=0
 total_rows,_=data.shape
@@ -31,14 +42,19 @@ for index,row in data.iterrows():
     text=text.lower()
     words=text.split()
     target_word=metaphor_id[met_id]
+    plural_word=plurals[met_id]
     if(target_word in words):
         contains_target_word+=1
     else:
-        target_word_not_found+=1
-        print(target_word)
-        print(words)
-        print()
-        print()
+        if plural_word in words:
+            contains_target_word+=1
+        else :
+
+            target_word_not_found+=1
+            print(target_word)
+            print(words)
+            print()
+            print()
 print("Total rows : ",total_rows)
 print("Rows containing target word : ",contains_target_word)
 print("Rows not containing target word : ",target_word_not_found)

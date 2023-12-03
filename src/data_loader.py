@@ -43,14 +43,14 @@ def add_target_index_and_target_word_to_data(data):
             target.append(plural_word)
             target_index.append(word_index)
 
+    data["target"]=target
+    data["target_index"]=target_index
+    return data
 
-
-    print(len(target))
-    print(len(target_index))
-    print(data.shape)
-
+    
 def get_data():
     data=pd.read_csv("../data/train.csv")
 
-    add_target_index_and_target_word_to_data(data)
+    data=add_target_index_and_target_word_to_data(data)
+    return data
     

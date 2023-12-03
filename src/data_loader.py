@@ -28,7 +28,7 @@ def add_target_index_and_target_word_to_data(data):
     print(data.shape)
 
 def get_data():
-    data=pd.read_csv("train.csv")
+    data=pd.read_csv("../data/train.csv")
 
     add_target_index_and_target_word_to_data(data)
     

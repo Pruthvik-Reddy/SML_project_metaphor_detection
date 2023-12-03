@@ -10,6 +10,19 @@ metaphor_id={
 6: "boat"
 }
 
+
+plurals={
+0: "roads",
+1: "candles",
+2: "lights",
+3: "spices",
+4: "rides",
+5: "trains",
+6: "boats"
+
+}
+
+
 def add_target_index_and_target_word_to_data(data):
     target=[]
     target_index=[]
@@ -18,10 +31,19 @@ def add_target_index_and_target_word_to_data(data):
         text=row["text"]
         text=text.lower()
         target_word=metaphor_id[met_id]
+        plural_word=plurals[met_id]
         words=text.split()
-        word_index=words.index(target_word)
-        target.append(target_word)
-        target_index.append(word_index)
+        if target_word in words:
+
+            word_index=words.index(target_word)
+            target.append(target_word)
+            target_index.append(word_index)
+        else:
+            word_index=words.index(plural_word)
+            target.append(plural_word)
+            target_index.append(word_index)
+
+
 
     print(len(target))
     print(len(target_index))

@@ -29,8 +29,9 @@ for index,row in data.iterrows():
     met_id=row["metaphorID"]
     text=row["text"]
     text=text.lower()
+    words=text.split()
     target_word=metaphor_id[met_id]
-    if(target_word in text):
+    if(target_word in words):
         contains_target_word+=1
     else:
         target_word_not_found+=1

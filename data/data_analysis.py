@@ -25,7 +25,7 @@ metaphor_id={
 contains_target_word=0
 target_word_not_found=0
 total_rows,_=data.shape
-for index,row in data.iterrrows():
+for index,row in data.iterrows():
     met_id=row["metaphorID"]
     text=row["text"]
     target_word=metaphor_id[met_id]

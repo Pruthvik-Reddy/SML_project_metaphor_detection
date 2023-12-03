@@ -29,7 +29,7 @@ for index,row in data.iterrows():
     met_id=row["metaphorID"]
     text=row["text"]
     target_word=metaphor_id[met_id]
-    if(text.contains(target_word,case=False)):
+    if(target_word in text):
         contains_target_word+=1
     else:
         target_word_not_found+=1

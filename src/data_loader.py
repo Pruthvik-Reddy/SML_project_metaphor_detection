@@ -45,10 +45,7 @@ def add_target_index_and_target_word_to_data(data):
 
     data["target"]=target
     data["target_index"]=target_index
-    print(data["label_boolean"].dtypes)
-    data['label_boolean'] = data['label_boolean'].str.upper() == 'TRUE'
-
-    data['label'] = data['label_boolean'].astype(int)
+    data['label'] = data['label_boolean'].apply(lambda x: 1 if x else 0)
     label_counts = data['label'].value_counts()
 
     print(label_counts)

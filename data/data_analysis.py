@@ -28,6 +28,7 @@ total_rows,_=data.shape
 for index,row in data.iterrows():
     met_id=row["metaphorID"]
     text=row["text"]
+    text=text.lower()
     target_word=metaphor_id[met_id]
     if(target_word in text):
         contains_target_word+=1

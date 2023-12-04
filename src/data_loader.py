@@ -55,3 +55,15 @@ def get_data():
     data=add_target_index_and_target_word_to_data(data)
     return data
     
+def get_texts_labels(data):
+    texts=data["text"].tolist()
+    labels=data["label"].tolist()
+    return texts,labels
+
+
+def get_data_for_melbert(data):
+    texts=data["text"].tolist()
+    labels=data["label"].tolist()
+    target=data["target"].tolist()
+    target_index=data["target_index"].tolist()
+    return texts,labels,target,target_index

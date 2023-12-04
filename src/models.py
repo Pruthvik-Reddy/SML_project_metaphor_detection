@@ -22,9 +22,9 @@ class BaseBERTClassifier(nn.Module):
 
 
 
-class melbert_model(nn.Module):
+class MelBERTCLassifier(nn.Module):
     def __init__(self, num_classes, dropout_prob=0.1):
-        super(BaseBERTClassifier, self).__init__()
+        super(MelBERTCLassifier, self).__init__()
         
         self.bert = BertModel.from_pretrained('bert-base-uncased')
         self.dropout = nn.Dropout(p=dropout_prob)
@@ -33,7 +33,7 @@ class melbert_model(nn.Module):
         self.SPV_layer = nn.Linear(self.bert.config.hidden_size * 2, self.bert.config.hidden_size)
         self.MIP_layer = nn.Linear(self.bert.config.hidden_size * 2, self.bert.config.hidden_size)
 
-    def forward(self, input_ids, attention_mask,input_ids_2,attention_mask_2,target_idx,target_word):
+    def forward(self, input_ids, attention_mask,input_ids_2,attention_mask_2,target_idx):
         outputs = self.bert(input_ids, attention_mask=attention_mask)
         sentence_hidden_states=outputs.last_hidden_state
         word_representation_from_sentence = sentence_hidden_states[0, target_idx, :]

@@ -60,7 +60,7 @@ def base_bert_model(texts,labels):
                 input_ids_1= batch['input_ids'].to(device)
                 attention_mask_1= batch['attention_mask'].to(device)
                 labels = batch['labels'].to(device)
-                outputs = model(input_ids_1, attention_mask_1=attention_mask_1)
+                outputs = model(input_ids_1, attention_mask_1)
                 loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
                 dev_loss+=loss.item()
                 

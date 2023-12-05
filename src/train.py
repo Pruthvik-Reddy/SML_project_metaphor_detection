@@ -43,8 +43,6 @@ def base_bert_model(texts,labels):
             attention_mask_1= batch['attention_mask'].to(device)
             labels = batch['labels'].to(device)
             outputs = model(input_ids_1, attention_mask_1)
-            #outputs = torch.argmax(outputs, dim=1)
-            #print(outputs.shape)
             loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
             loss.backward()
             optim.step()
@@ -63,7 +61,7 @@ def base_bert_model(texts,labels):
                 attention_mask_1= batch['attention_mask'].to(device)
                 labels = batch['labels'].to(device)
                 outputs = model(input_ids_1, attention_mask_1=attention_mask_1)
-                loss = loss_function(outputs.squeeze(),labels.to(torch.float))
+                loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
                 dev_loss+=loss.item()
                 
                 

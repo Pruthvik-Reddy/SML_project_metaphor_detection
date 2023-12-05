@@ -49,8 +49,8 @@ class MelBERTCLassifier(nn.Module):
 
         target_word_representation=self.dropout(target_word_representation)
 
-        SPV_hidden = self.SPV_linear(torch.cat([sentence_output, word_representation_from_sentence], dim=1))
-        MIP_hidden = self.MIP_linear(torch.cat([target_word_representation, word_representation_from_sentence], dim=1))
+        SPV_hidden = self.SPV_layer(torch.cat([sentence_output, word_representation_from_sentence], dim=1))
+        MIP_hidden = self.MIP_layer(torch.cat([target_word_representation, word_representation_from_sentence], dim=1))
 
         logits = self.classifier(self.dropout(torch.cat([SPV_hidden, MIP_hidden], dim=1)))
         #probabilities = self.softmax(logits)

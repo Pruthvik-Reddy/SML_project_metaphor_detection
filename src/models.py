@@ -14,9 +14,14 @@ class BaseBERTClassifier(nn.Module):
     def forward(self, input_ids, attention_mask):
         outputs = self.bert(input_ids, attention_mask=attention_mask)
         pooled_output = outputs.pooler_output
+        print("Pooled output shape : ",pooled_output.shape)
         dropped_output = self.dropout(pooled_output)
+        print("Dropped outputs shape : ",dropped_output.shape)
         logits = self.linear(dropped_output)
+        print("Logits shape : ",logits.shape)
         probabilities = self.softmax(logits)
+        print("Probabilities shape : ",probabilities.shape)
+
 
         return probabilities
 

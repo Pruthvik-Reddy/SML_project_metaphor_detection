@@ -8,7 +8,7 @@ if __name__=="__main__":
 
     #base_bert_model(texts,labels)
 
-    #texts,labels,target,target_index=get_data_for_melbert(data)
-    #melbert_model(texts,labels,target,target_index)
+    texts,labels,target,target_index=get_data_for_melbert(data)
+    melbert_model(texts,labels,target,target_index)
     
     

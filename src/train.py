@@ -44,6 +44,7 @@ def base_bert_model(texts,labels):
             labels = batch['labels'].to(device)
             outputs = model(input_ids_1, attention_mask_1)
             print(outputs.shape)
+            outputs = torch.argmax(outputs, dim=1)
             print(labels.to(torch.float).shape)
             loss = loss_function(outputs.squeeze(),labels.to(torch.float))
             loss.backward()

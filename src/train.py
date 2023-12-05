@@ -5,6 +5,7 @@ from metaphordataset import MetaphorDataset, MelBERTDataset
 from models import BaseBERTClassifier, MelBERTCLassifier
 from torch.utils.data import DataLoader
 import torch.nn as nn
+from sklearn.metrics import accuracy_score, f1_score
 
 def base_bert_model(texts,labels):
     train_texts, val_texts, train_labels, val_labels = train_test_split(texts, labels, test_size=.2)
@@ -14,7 +15,7 @@ def base_bert_model(texts,labels):
     train_dataset = MetaphorDataset(train_encodings, train_labels)
     val_dataset = MetaphorDataset(val_encodings, val_labels)
 
-    batch_size=12
+    batch_size=8
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
     val_loader= DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
@@ -51,7 +52,8 @@ def base_bert_model(texts,labels):
         avg_training_loss=training_loss/len(train_loader)
         print("Training loss for epoch {} is {}".format(epoch+1,avg_training_loss))
         
-        
+        all_preds=[]
+        all_labels=[]
         model.eval()
         dev_loss=0
         with torch.no_grad():
@@ -63,10 +65,23 @@ def base_bert_model(texts,labels):
                 outputs = model(input_ids_1, attention_mask_1)
                 loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
                 dev_loss+=loss.item()
-                
+                probabilities = torch.nn.functional.softmax(outputs, dim=1)
+
+                preds = torch.argmax(probabilities, dim=1).cpu().numpy()
+
+                all_preds.extend(preds)
+                all_labels.extend(labels.cpu().numpy())
+                        
                 
         print("Dev loss for epoch {} is {}".format(epoch+1,dev_loss/len(val_loader)))
-        
+        accuracy = accuracy_score(all_labels, all_preds)
+        f1 = f1_score(all_labels, all_preds, average='weighted')
+
+        # Print or log the results
+        print(f"Accuracy: {accuracy:.4f}")
+        print(f"F1 Score: {f1:.4f}")
+
+
     model.eval()
 
 

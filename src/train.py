@@ -108,7 +108,7 @@ def melbert_model(texts,labels,target,target_index):
     train_dataset = MelBERTDataset(train_encodings, train_labels,train_target_encodings, train_target_index)
     val_dataset = MelBERTDataset(val_encodings, val_labels, val_target_encodings,val_target_index)
 
-    batch_size=12
+    batch_size=8
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
     val_loader= DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
@@ -141,7 +141,7 @@ def melbert_model(texts,labels,target,target_index):
             labels = batch['labels'].to(device)
             target_index=batch["target_index"].to(device)
             outputs = model(input_ids_1, attention_mask_1, input_ids_2,attention_mask_2,target_index)
-            loss = loss_function(outputs.squeeze(),labels.to(torch.float))
+            loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
             loss.backward()
             optim.step()
             training_loss+=loss.item()
@@ -152,6 +152,9 @@ def melbert_model(texts,labels,target,target_index):
         
         model.eval()
         dev_loss=0
+        all_preds=[]
+        all_labels=[]
+        
         with torch.no_grad():
             
             for batch in val_loader:
@@ -164,11 +167,24 @@ def melbert_model(texts,labels,target,target_index):
                 target_index=batch["target_index"].to(device)
             
                 outputs = model(input_ids_1, attention_mask_1,input_ids_2,attention_mask_2,target_index)
-                loss = loss_function(outputs.squeeze(),labels.to(torch.float))
+                loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
                 dev_loss+=loss.item()
+                probabilities = torch.nn.functional.softmax(outputs, dim=1)
+
+                preds = torch.argmax(probabilities, dim=1).cpu().numpy()
+
+                all_preds.extend(preds)
+                all_labels.extend(labels.cpu().numpy())
                 
                 
         print("Dev loss for epoch {} is {}".format(epoch+1,dev_loss/len(val_loader)))
+        accuracy = accuracy_score(all_labels, all_preds)
+        f1 = f1_score(all_labels, all_preds, average='weighted')
+
+        # Print or log the results
+        print(f"Accuracy: {accuracy:.4f}")
+        print(f"F1 Score: {f1:.4f}")
+
         
     model.eval()
 

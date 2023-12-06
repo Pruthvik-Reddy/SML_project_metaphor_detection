@@ -108,9 +108,9 @@ def melbert_model(texts,labels,target,target_index):
     train_dataset = MelBERTDataset(train_encodings, train_labels,train_target_encodings, train_target_index,train_texts)
     val_dataset = MelBERTDataset(val_encodings, val_labels, val_target_encodings,val_target_index,val_texts)
 
-    batch_size=8
+    batch_size=1
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
     val_loader= DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
 
     num_classes = 2  

@@ -142,6 +142,7 @@ def melbert_model(texts,labels,target,target_index):
             target_index=batch["target_index"].to(device)
             sentences = batch["sentence"]
             outputs = model(input_ids_1, attention_mask_1, input_ids_2,attention_mask_2,target_index)
+            print(outputs.shape)
             print("Outputs squeeze : ",outputs.squeeze().shape)
             print("print labels ",labels.shape)
                 

@@ -58,7 +58,7 @@ class MelBERTCLassifier(nn.Module):
         print(SPV_hidden.shape)
         print(MIP_hidden.shape)
         logits = self.classifier(self.dropout(torch.cat([SPV_hidden, MIP_hidden], dim=1)))
-        logits=torch.squeeze(logits)
+        #logits=torch.squeeze(logits)
         print(logits.shape)
         print()
         print()

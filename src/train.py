@@ -141,11 +141,10 @@ def melbert_model(texts,labels,target,target_index):
             labels = batch['labels'].to(device)
             target_index=batch["target_index"].to(device)
             sentences = batch["sentence"]
-            for i in range(len(sentences)):
-                print(len(sentences[i].split()))
             outputs = model(input_ids_1, attention_mask_1, input_ids_2,attention_mask_2,target_index)
-            print(outputs.shape)
-            print(labels.shape)
+            print("Outputs squeeze : ",outputs.squeeze().shape)
+            print("print labels ",labels.shape)
+                
             loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
             print(loss)
             loss.backward()
@@ -173,8 +172,6 @@ def melbert_model(texts,labels,target,target_index):
                 target_index=batch["target_index"].to(device)
             
                 outputs = model(input_ids_1, attention_mask_1,input_ids_2,attention_mask_2,target_index)
-                print("Outputs squeeze : ",outputs.squeeze().shape)
-                print("print labels ",labels.shape)
                 loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
                 dev_loss+=loss.item()
                 probabilities = torch.nn.functional.softmax(outputs, dim=1)

@@ -105,8 +105,8 @@ def melbert_model(texts,labels,target,target_index):
     val_target_encodings=tokenizer(val_target, truncation=True, padding=True)
 
 
-    train_dataset = MelBERTDataset(train_encodings, train_labels,train_target_encodings, train_target_index)
-    val_dataset = MelBERTDataset(val_encodings, val_labels, val_target_encodings,val_target_index)
+    train_dataset = MelBERTDataset(train_encodings, train_labels,train_target_encodings, train_target_index,train_texts)
+    val_dataset = MelBERTDataset(val_encodings, val_labels, val_target_encodings,val_target_index,val_texts)
 
     batch_size=8
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -140,6 +140,9 @@ def melbert_model(texts,labels,target,target_index):
             
             labels = batch['labels'].to(device)
             target_index=batch["target_index"].to(device)
+            sentences = [item['sentence'] for item in batch]
+            for i in range(len(sentences)):
+                print(len(sentences[i].split()))
             outputs = model(input_ids_1, attention_mask_1, input_ids_2,attention_mask_2,target_index)
             print(outputs.shape)
             print(labels.shape)

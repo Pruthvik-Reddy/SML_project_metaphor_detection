@@ -61,9 +61,20 @@ def get_texts_labels(data):
     return texts,labels
 
 
+
 def get_data_for_melbert(data):
     texts=data["text"].tolist()
     labels=data["label"].tolist()
     target=data["target"].tolist()
     target_index=data["target_index"].tolist()
-    return texts,labels,target,target_index
+    formatted_texts=[]
+    for i in range(len(texts)):
+        text=texts[i]
+        indices = [i for i in range(len(text) - 2) if text[i:i+3] == " . "]
+        required_index=0
+        for i in range(len(indices)):
+            if indices[i]>target_index:
+                required_index=indices[i]
+                break
+        formatted_texts.append(text[:required_index+2])
+    return formatted_texts,labels,target,target_index

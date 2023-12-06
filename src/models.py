@@ -39,7 +39,7 @@ class MelBERTCLassifier(nn.Module):
     def forward(self, input_ids, attention_mask,input_ids_2,attention_mask_2,target_idx):
         outputs = self.bert(input_ids, attention_mask=attention_mask)
         sentence_hidden_states=outputs.last_hidden_state
-        word_representation_from_sentence = sentence_hidden_states[0, target_idx, :]
+        word_representation_from_sentence = sentence_hidden_states[0][target_idx]
         sentence_output = outputs.pooler_output
 
         target_word=self.bert(input_ids_2, attention_mask=attention_mask_2)
@@ -49,6 +49,11 @@ class MelBERTCLassifier(nn.Module):
         sentence_output = self.dropout(sentence_output)
 
         target_word_representation=self.dropout(target_word_representation)
+
+        print(word_representation_from_sentence.shape)
+        print(target_word_representation.shape)
+        print(sentence_output.shape)
+
 
         SPV_hidden = self.SPV_layer(torch.cat([sentence_output, word_representation_from_sentence], dim=1))
         MIP_hidden = self.MIP_layer(torch.cat([target_word_representation, word_representation_from_sentence], dim=1))

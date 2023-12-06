@@ -39,7 +39,8 @@ class MelBERTCLassifier(nn.Module):
     def forward(self, input_ids, attention_mask,input_ids_2,attention_mask_2,target_idx):
         outputs = self.bert(input_ids, attention_mask=attention_mask)
         sentence_hidden_states=outputs.last_hidden_state
-        #print("Len of hidden states : ",len(sentence_hidden_states[0]))
+        print("Len of hidden states : ",len(sentence_hidden_states[0]))
+        print(target_idx)
         word_representation_from_sentence = sentence_hidden_states[0][target_idx]
         sentence_output = outputs.pooler_output
 

@@ -140,7 +140,7 @@ def melbert_model(texts,labels,target,target_index):
             
             labels = batch['labels'].to(device)
             target_index=batch["target_index"].to(device)
-            sentences = [item['sentence'] for item in batch]
+            sentences = batch["sentence"].to(device)
             for i in range(len(sentences)):
                 print(len(sentences[i].split()))
             outputs = model(input_ids_1, attention_mask_1, input_ids_2,attention_mask_2,target_index)

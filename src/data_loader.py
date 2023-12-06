@@ -72,9 +72,9 @@ def get_data_for_melbert(data):
         text=texts[i]
         indices = [i for i in range(len(text) - 2) if text[i:i+3] == " . "]
         required_index=0
-        for i in range(len(indices)):
-            if indices[i]>target_index:
-                required_index=indices[i]
+        for j in range(len(indices)):
+            if indices[j]>target_index[i]:
+                required_index=indices[j]
                 break
         formatted_texts.append(text[:required_index+2])
     return formatted_texts,labels,target,target_index

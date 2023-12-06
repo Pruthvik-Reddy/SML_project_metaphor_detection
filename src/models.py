@@ -62,9 +62,9 @@ class MelBERTCLassifier(nn.Module):
         print(logits.shape)
         print()
         print()
-        #probabilities = self.softmax(logits)
+        probabilities = self.softmax(logits)
 
-        return logits
+        return probabilities
         
 
 

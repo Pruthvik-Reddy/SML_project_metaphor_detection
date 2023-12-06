@@ -122,7 +122,7 @@ def melbert_model(texts,labels,target,target_index):
 
     
     model.to(device)
-    loss_function = nn.CrossEntropyLoss()
+    loss_function = nn.BCELoss()
 
     epochs=10
 

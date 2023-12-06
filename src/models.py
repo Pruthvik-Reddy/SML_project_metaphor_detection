@@ -34,6 +34,7 @@ class MelBERTCLassifier(nn.Module):
         #self.softmax = nn.Softmax(dim=1)
         self.SPV_layer = nn.Linear(self.bert.config.hidden_size * 2, self.bert.config.hidden_size)
         self.MIP_layer = nn.Linear(self.bert.config.hidden_size * 2, self.bert.config.hidden_size)
+        self.classifier = nn.Linear(self.bert.config.hidden_size * 2, 1)
 
     def forward(self, input_ids, attention_mask,input_ids_2,attention_mask_2,target_idx):
         outputs = self.bert(input_ids, attention_mask=attention_mask)

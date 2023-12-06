@@ -144,6 +144,7 @@ def melbert_model(texts,labels,target,target_index):
             print(outputs.shape)
             print(labels.shape)
             loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
+            print(loss)
             loss.backward()
             optim.step()
             training_loss+=loss.item()

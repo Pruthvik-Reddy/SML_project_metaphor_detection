@@ -31,7 +31,7 @@ class MelBERTCLassifier(nn.Module):
         self.bert = BertModel.from_pretrained('bert-base-uncased')
         self.dropout = nn.Dropout(p=dropout_prob)
         self.linear = nn.Linear(self.bert.config.hidden_size, num_classes)
-        #self.softmax = nn.Softmax(dim=1)
+        self.softmax = nn.Softmax(dim=1)
         self.SPV_layer = nn.Linear(self.bert.config.hidden_size * 2, self.bert.config.hidden_size)
         self.MIP_layer = nn.Linear(self.bert.config.hidden_size * 2, self.bert.config.hidden_size)
         self.classifier = nn.Linear(self.bert.config.hidden_size * 2, 1)

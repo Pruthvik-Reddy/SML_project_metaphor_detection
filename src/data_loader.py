@@ -78,3 +78,48 @@ def get_data_for_melbert(data):
                 break
         formatted_texts.append(text[:required_index+2])
     return formatted_texts,labels,target,target_index
+
+def get_data_for_melbert_2(data):
+    texts=data["text"].tolist()
+    labels=data["label"].tolist()
+    target=data["target"].tolist()
+    target_index=data["target_index"].tolist()
+    print()
+    print("Len of target_index : ",len(target_index))
+    print("Len of texts : ",len(texts))
+    formatted_texts=[]
+    formatted_indices=[]
+    formatted_labels=[]
+    for i in range(len(texts)):
+        text=texts[i]
+        words=text.split()
+        indices=[]
+        #print(words)
+        for j in range(len(words)):
+          if words[j]==".":
+            indices.append(j)
+
+        required_index=0
+        for j in range(len(indices)):
+            if indices[j]>target_index[i]:
+                required_index=indices[j]
+                break
+        if required_index!=0:
+          start_ind=max(required_index-50,0)
+          end_ind=max(required_index+50,len(words)-1)
+          before_words=words[start_ind:required_index+1]
+          after_words=words[required_index+1:end_ind]
+          all_words=before_words+after_words
+          sentence = ' '.join(all_words)
+          formatted_texts.append(sentence)
+          if max(required_index-50,0)==0:
+            formatted_index=required_index
+          else:
+            formatted_index=50
+          formatted_indices.append(formatted_index)
+          formatted_labels.append(labels[i])
+          
+    return formatted_texts,formatted_labels,target,formatted_indices
+
+    
+

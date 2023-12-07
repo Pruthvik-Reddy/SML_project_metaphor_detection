@@ -17,10 +17,11 @@ class BaseBERTClassifier(nn.Module):
         pooled_output = outputs.pooler_output
         dropped_output = self.dropout(pooled_output)
         logits = self.linear(dropped_output)
-        #probabilities = self.softmax(logits)
+        probabilities = self.softmax(logits)
         
 
-        return logits
+        #return logits
+        return probabilities
 
 
 

@@ -51,7 +51,7 @@ def add_target_index_and_target_word_to_data(data):
     
 def get_data():
     data=pd.read_csv("../data/train.csv")
-
+    data = data.sample(frac=1, random_state=42)
     data=add_target_index_and_target_word_to_data(data)
     return data
     

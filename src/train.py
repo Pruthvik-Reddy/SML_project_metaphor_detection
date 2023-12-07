@@ -29,7 +29,7 @@ def base_bert_model(texts,labels):
 
     
     model.to(device)
-    loss_function = nn.BCEWithLogitsLoss()
+    loss_function = nn.CrossEntropyLoss()
 
     epochs=10
 
@@ -44,6 +44,7 @@ def base_bert_model(texts,labels):
             attention_mask_1= batch['attention_mask'].to(device)
             labels = batch['labels'].to(device)
             outputs = model(input_ids_1, attention_mask_1)
+            print(outputs)
             loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
             loss.backward()
             optim.step()

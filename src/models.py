@@ -10,7 +10,7 @@ class BaseBERTClassifier(nn.Module):
         self.dropout = nn.Dropout(p=dropout_prob)
         #self.linear = nn.Linear(self.bert.config.hidden_size, num_classes)
         self.linear = nn.Linear(self.bert.config.hidden_size, 1)
-        #self.softmax = nn.Softmax(dim=1)
+        self.softmax = nn.Softmax(dim=1)
 
     def forward(self, input_ids, attention_mask):
         outputs = self.bert(input_ids, attention_mask=attention_mask)

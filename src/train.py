@@ -116,13 +116,13 @@ def melbert_model(texts,labels,target,target_index):
     num_classes = 2  
     model = MelBERTCLassifier(num_classes=num_classes)
 
-    learning_rate=0.01
+    learning_rate=1e-5
 
     optim = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 
     
     model.to(device)
-    loss_function = nn.BCELoss()
+    loss_function = nn.CrossEntropyLoss()
 
     epochs=10
 

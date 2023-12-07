@@ -39,8 +39,6 @@ class MelBERTCLassifier(nn.Module):
     def forward(self, input_ids, attention_mask,input_ids_2,attention_mask_2,target_idx):
         outputs = self.bert(input_ids, attention_mask=attention_mask)
         sentence_hidden_states=outputs.last_hidden_state
-        #print("Len of hidden states : ",len(sentence_hidden_states[0]))
-        #print("Target idx ",target_idx)
         word_representation_from_sentence = sentence_hidden_states[0][target_idx]
         sentence_output = outputs.pooler_output
 
@@ -52,18 +50,11 @@ class MelBERTCLassifier(nn.Module):
 
         target_word_representation=self.dropout(target_word_representation)
 
-        #print(word_representation_from_sentence.shape)
         
 
         SPV_hidden = self.SPV_layer(torch.cat([sentence_output, word_representation_from_sentence], dim=1))
         MIP_hidden = self.MIP_layer(torch.cat([target_word_representation, word_representation_from_sentence], dim=1))
-        #print(SPV_hidden.shape)
-        #print(MIP_hidden.shape)
         logits = self.classifier(self.dropout(torch.cat([SPV_hidden, MIP_hidden], dim=1)))
-        #logits=torch.squeeze(logits)
-        #print(logits.shape)
-        #print()
-        #print()
         probabilities = self.softmax(logits)
 
         return probabilities

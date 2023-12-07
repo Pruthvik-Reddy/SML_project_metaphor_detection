@@ -68,7 +68,8 @@ def base_bert_model(texts,labels):
                 probabilities = torch.nn.functional.softmax(outputs, dim=1)
 
                 preds = torch.argmax(probabilities, dim=1).cpu().numpy()
-
+                print("Predictions : ",preds)
+                print("Labels : ",labels)
                 all_preds.extend(preds)
                 all_labels.extend(labels.cpu().numpy())
                         

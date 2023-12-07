@@ -23,7 +23,7 @@ def base_bert_model(texts,labels):
     num_classes = 2  
     model = BaseBERTClassifier(num_classes=num_classes)
 
-    learning_rate=0.01
+    learning_rate=1e-5
 
     optim = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 

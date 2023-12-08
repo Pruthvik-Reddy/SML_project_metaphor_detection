@@ -91,10 +91,8 @@ def melbert_model(texts,labels,target,target_index):
 
     data = list(zip(texts, labels, target,target_index))
 
-    # Split the data
     train_data, val_data = train_test_split(data, test_size=0.2, random_state=42)
 
-    # Unzip the split data
     train_texts, train_labels, train_target, train_target_index = zip(*train_data)
     val_texts, val_labels, val_target, val_target_index = zip(*val_data)
 
@@ -109,9 +107,9 @@ def melbert_model(texts,labels,target,target_index):
     train_dataset = MelBERTDataset(train_encodings, train_labels,train_target_encodings, train_target_index,train_texts)
     val_dataset = MelBERTDataset(val_encodings, val_labels, val_target_encodings,val_target_index,val_texts)
 
-    batch_size=2
+    batch_size=8
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
     val_loader= DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
 
     num_classes = 2  
@@ -123,8 +121,7 @@ def melbert_model(texts,labels,target,target_index):
 
     
     model.to(device)
-    loss_function = nn.CrossEntropyLoss()
-
+    loss_function = nn.NLLLoss()
     epochs=10
 
     training_loss=0
@@ -143,8 +140,8 @@ def melbert_model(texts,labels,target,target_index):
             target_index=batch["target_index"].to(device)
             sentences = batch["sentence"]
             outputs = model(input_ids_1, attention_mask_1, input_ids_2,attention_mask_2,target_index)
-            print(labels)
-            loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
+            #print(labels)
+            loss = loss_function(outputs.view(-1, num_classes), labels.view(-1))
             loss.backward()
             optim.step()
             training_loss+=loss.item()
@@ -170,11 +167,9 @@ def melbert_model(texts,labels,target,target_index):
                 target_index=batch["target_index"].to(device)
             
                 outputs = model(input_ids_1, attention_mask_1,input_ids_2,attention_mask_2,target_index)
-                loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
+                loss = loss_function(outputs.view(-1, num_classes), labels.view(-1))
                 dev_loss+=loss.item()
-                probabilities = torch.nn.functional.softmax(outputs, dim=1)
-
-                preds = torch.argmax(probabilities, dim=1).cpu().numpy()
+                preds = torch.argmax(outputs, dim=1).cpu().numpy()
 
                 all_preds.extend(preds)
                 all_labels.extend(labels.cpu().numpy())

@@ -29,8 +29,8 @@ def base_bert_model(texts,labels):
 
     
     model.to(device)
-    loss_function = nn.CrossEntropyLoss()
-
+    #loss_function = nn.CrossEntropyLoss()
+    loss_function = nn.NLLLoss()
     epochs=10
 
     training_loss=0
@@ -44,8 +44,9 @@ def base_bert_model(texts,labels):
             attention_mask_1= batch['attention_mask'].to(device)
             labels = batch['labels'].to(device)
             outputs = model(input_ids_1, attention_mask_1)
-            print(outputs)
-            loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
+            #print(outputs)
+            loss = loss_function(outputs.view(-1, num_classes), labels.view(-1))
+            #loss = loss_function(outputs.squeeze(),labels.to(outputs.dtype))
             loss.backward()
             optim.step()
             training_loss+=loss.item()
@@ -84,8 +85,7 @@ def base_bert_model(texts,labels):
         print(f"F1 Score: {f1:.4f}")
 
 
-    model.eval()
-
+    
 
 def melbert_model(texts,labels,target,target_index):
 

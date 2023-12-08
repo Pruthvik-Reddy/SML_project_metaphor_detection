@@ -12,8 +12,8 @@ if __name__=="__main__":
             zero_cnt+=1
         elif labels[i]==1:
             ones_cnt+=1
-    print("Zero count : ",zero_cnt)
-    print("Ones count : ",ones_cnt)
+    #print("Zero count : ",zero_cnt)
+    #print("Ones count : ",ones_cnt)
     base_bert_model(texts,labels)
 
     #texts,labels,target,target_index=get_data_for_melbert(data)

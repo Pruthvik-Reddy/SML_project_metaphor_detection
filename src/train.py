@@ -69,8 +69,8 @@ def base_bert_model(texts,labels):
                 loss = loss_function(outputs.view(-1, num_classes), labels.view(-1))
                 dev_loss+=loss.item()
                 preds = torch.argmax(outputs, dim=1).cpu().numpy()
-                print("Predictions : ",preds)
-                print("Labels : ",labels)
+                #print("Predictions : ",preds)
+                #print("Labels : ",labels)
                 all_preds.extend(preds)
                 all_labels.extend(labels.cpu().numpy())
                         

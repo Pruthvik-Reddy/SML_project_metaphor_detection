@@ -5,7 +5,7 @@ from metaphordataset import MetaphorDataset, MelBERTDataset
 from models import BaseBERTClassifier, MelBERTCLassifier
 from torch.utils.data import DataLoader
 import torch.nn as nn
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
 def base_bert_model(texts,labels):
     train_texts, val_texts, train_labels, val_labels = train_test_split(texts, labels, test_size=.2)
@@ -52,7 +52,7 @@ def base_bert_model(texts,labels):
             training_loss+=loss.item()
             
         avg_training_loss=training_loss/len(train_loader)
-        print("Training loss for epoch {} is {}".format(epoch+1,avg_training_loss))
+        #print("Training loss for epoch {} is {}".format(epoch+1,avg_training_loss))
         
         all_preds=[]
         all_labels=[]
@@ -75,13 +75,20 @@ def base_bert_model(texts,labels):
                 all_labels.extend(labels.cpu().numpy())
                         
                 
-        print("Dev loss for epoch {} is {}".format(epoch+1,dev_loss/len(val_loader)))
+        #print("Dev loss for epoch {} is {}".format(epoch+1,dev_loss/len(val_loader)))
         accuracy = accuracy_score(all_labels, all_preds)
-        f1 = f1_score(all_labels, all_preds, average='weighted')
+        f1 = f1_score(all_labels, all_preds)
+        precison = precision_score(all_labels, all_preds)
+        recall = recall_score(all_labels, all_preds)
 
         # Print or log the results
+        print("Baseline Model : ")
         print(f"Accuracy: {accuracy:.4f}")
         print(f"F1 Score: {f1:.4f}")
+        print(f"Precision Score: {precison:.4f}")
+        print(f"Recall Score: {recall:.4f}")
+
+
 
 
     
@@ -147,7 +154,7 @@ def melbert_model(texts,labels,target,target_index):
             training_loss+=loss.item()
             
         avg_training_loss=training_loss/len(train_loader)
-        print("Training loss for epoch {} is {}".format(epoch+1,avg_training_loss))
+        #print("Training loss for epoch {} is {}".format(epoch+1,avg_training_loss))
         
         
         model.eval()
@@ -175,14 +182,19 @@ def melbert_model(texts,labels,target,target_index):
                 all_labels.extend(labels.cpu().numpy())
                 
                 
-        print("Dev loss for epoch {} is {}".format(epoch+1,dev_loss/len(val_loader)))
+        #print("Dev loss for epoch {} is {}".format(epoch+1,dev_loss/len(val_loader)))
         accuracy = accuracy_score(all_labels, all_preds)
-        f1 = f1_score(all_labels, all_preds, average='weighted')
+        f1 = f1_score(all_labels, all_preds)
+        precison = precision_score(all_labels, all_preds)
+        recall = recall_score(all_labels, all_preds)
 
-        # Print or log the results
+        print("MelBERT Model : ")
         print(f"Accuracy: {accuracy:.4f}")
         print(f"F1 Score: {f1:.4f}")
+        print(f"Precision Score: {precison:.4f}")
+        print(f"Recall Score: {recall:.4f}")
 
+        
         
     model.eval()
 

@@ -14,7 +14,7 @@ if __name__=="__main__":
             ones_cnt+=1
     #print("Zero count : ",zero_cnt)
     #print("Ones count : ",ones_cnt)
-    #base_bert_model(texts,labels)
+    base_bert_model(texts,labels)
 
     #texts,labels,target,target_index=get_data_for_melbert(data)
     texts,labels,target,target_index=get_data_for_melbert_2(data)

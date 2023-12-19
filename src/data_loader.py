@@ -26,10 +26,19 @@ plurals={
 def add_target_index_and_target_word_to_data(data):
     target=[]
     target_index=[]
+    texts=[]
+    labels=[]
     for index,row in data.iterrows():
         met_id=row["metaphorID"]
         text=row["text"]
         text=text.lower()
+        texts.append(text)
+        label=row["label_boolean"]
+        if label:
+           label=1
+        else:
+           label=0
+        labels.append(label)
         target_word=metaphor_id[met_id]
         plural_word=plurals[met_id]
         words=text.split()
@@ -43,9 +52,16 @@ def add_target_index_and_target_word_to_data(data):
             target.append(plural_word)
             target_index.append(word_index)
 
-    data["target"]=target
-    data["target_index"]=target_index
-    data['label'] = data['label_boolean'].apply(lambda x: 1 if x else 0)
+    #data["target"]=target
+    #data["target_index"]=target_index
+    #data['label'] = data['label_boolean'].apply(lambda x: 1 if x else 0)
+    data = pd.DataFrame({
+    'text': text,
+    'label': labels,
+    'target': target,
+    'target_index': target_index
+    })
+
     return data
 
     

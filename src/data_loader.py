@@ -50,6 +50,51 @@ def add_target_index_and_target_word_to_data(data):
     print(data.shape)
     return data
 
+def add_target_index_and_target_word_to_data_2(data):
+    target=[]
+    target_index=[]
+    texts=[]
+    labels=[]
+    for index,row in data.iterrows():
+        met_id=row["metaphorID"]
+        text=row["text"]
+        texts.append(text)
+
+        label=row["label_boolean"]
+        if label:
+            label=1
+        else:
+            label=0
+        labels.append(label)
+
+        text=text.lower()
+        target_word=metaphor_id[met_id]
+        plural_word=plurals[met_id]
+        words=text.split()
+        if target_word in words:
+
+            word_index=words.index(target_word)
+            target.append(target_word)
+            target_index.append(word_index)
+        
+        elif plural_word in words:
+            word_index=words.index(plural_word)
+            target.append(plural_word)
+            target_index.append(word_index)
+        
+    #data["target"]=target
+    #data["target_index"]=target_index
+    #data['label'] = data['label_boolean'].apply(lambda x: 1 if x else 0)
+    
+    new_data=pd.DataFrame({'text': texts,
+    'label': labels,
+    'target': target,
+    'target_index': target_index
+    })
+
+    print(new_data.shape)
+    return new_data
+
     
 def get_data():
     data=pd.read_csv("../data/train.csv")

@@ -11,6 +11,7 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 def melbert_test(texts,labels,target,target_index):
     batch_size=8
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    print("Device : ",device)
     num_classes = 2  
     model = MelBERTCLassifier(num_classes=num_classes)
     model.load_state_dict(torch.load("saved_model.pth"))

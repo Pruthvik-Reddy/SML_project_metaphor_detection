@@ -61,7 +61,7 @@ def add_target_index_and_target_word_to_data(data):
     'target': target,
     'target_index': target_index
     })
-
+    print(data.shape)
     return data
 
     

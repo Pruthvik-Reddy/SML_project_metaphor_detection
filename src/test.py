@@ -31,7 +31,7 @@ def melbert_test(texts,labels,target,target_index):
     all_preds=[]
     all_labels=[]
     with torch.no_grad():
-            
+        print("Running test....")
         for batch in test_loader:
             input_ids_1= batch['input_ids'].to(device)
             attention_mask_1= batch['attention_mask'].to(device)

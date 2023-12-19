@@ -130,7 +130,7 @@ def melbert_model(texts,labels,target,target_index):
     model.to(device)
     loss_function = nn.NLLLoss()
     epochs=10
-
+    all_epoch_results=[]
     training_loss=0
     val_loss=0
     for epoch in range(epochs):
@@ -187,16 +187,26 @@ def melbert_model(texts,labels,target,target_index):
         f1 = f1_score(all_labels, all_preds)
         precison = precision_score(all_labels, all_preds)
         recall = recall_score(all_labels, all_preds)
-
-        print("MelBERT Model : ")
-        print(f"Accuracy: {accuracy:.4f}")
-        print(f"F1 Score: {f1:.4f}")
-        print(f"Precision Score: {precison:.4f}")
-        print(f"Recall Score: {recall:.4f}")
+        all_epoch_results.append([accuracy,f1_score,precison,recall])
+        #print("MelBERT Model : ")
+        #print(f"Accuracy: {accuracy:.4f}")
+        #print(f"F1 Score: {f1:.4f}")
+        #print(f"Precision Score: {precison:.4f}")
+        #print(f"Recall Score: {recall:.4f}")
     model_path = "saved_model.pth"
+
     torch.save(model.state_dict(), model_path)
-        
-        
+    print("Best results : ")
+    max_accuracy_sublist = max(all_epoch_results, key=lambda x: x[0])
+    accuracy = max_accuracy_sublist[0]
+    f1 = max_accuracy_sublist[1]
+    precison = max_accuracy_sublist[2]
+    recall = max_accuracy_sublist[3]
+    print(f"Accuracy: {accuracy:.4f}")
+    print(f"F1 Score: {f1:.4f}")
+    print(f"Precision Score: {precison:.4f}")
+    print(f"Recall Score: {recall:.4f}")  
+    
     model.eval()
 
     

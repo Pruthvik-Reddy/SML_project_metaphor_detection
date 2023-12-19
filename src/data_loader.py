@@ -55,9 +55,9 @@ def add_target_index_and_target_word_to_data(data):
             target.append(plural_word)
             target_index.append(word_index)
         """
-    #data["target"]=target
-    #data["target_index"]=target_index
-    #data['label'] = data['label_boolean'].apply(lambda x: 1 if x else 0)
+    data["target"]=target
+    data["target_index"]=target_index
+    data['label'] = data['label_boolean'].apply(lambda x: 1 if x else 0)
     """
     data = pd.DataFrame({
     'text': text,

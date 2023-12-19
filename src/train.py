@@ -187,7 +187,7 @@ def melbert_model(texts,labels,target,target_index):
         f1 = f1_score(all_labels, all_preds)
         precison = precision_score(all_labels, all_preds)
         recall = recall_score(all_labels, all_preds)
-        all_epoch_results.append([accuracy,f1_score,precison,recall])
+        all_epoch_results.append([accuracy,f1,precison,recall])
         #print("MelBERT Model : ")
         #print(f"Accuracy: {accuracy:.4f}")
         #print(f"F1 Score: {f1:.4f}")

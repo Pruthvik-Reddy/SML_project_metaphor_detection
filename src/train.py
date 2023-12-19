@@ -193,7 +193,8 @@ def melbert_model(texts,labels,target,target_index):
         print(f"F1 Score: {f1:.4f}")
         print(f"Precision Score: {precison:.4f}")
         print(f"Recall Score: {recall:.4f}")
-
+    model_path = "saved_model.pth"
+    torch.save(model.state_dict(), model_path)
         
         
     model.eval()

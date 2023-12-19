@@ -5,4 +5,4 @@ from train import base_bert_model,melbert_model
 if __name__=="__main__":
     data=get_data()
     texts,labels,target,target_index=get_data_for_melbert_2(data)
-    #melbert_model(texts,labels,target,target_index)
+    melbert_model(texts,labels,target,target_index)

@@ -31,8 +31,8 @@ def add_target_index_and_target_word_to_data(data):
     for index,row in data.iterrows():
         met_id=row["metaphorID"]
         text=row["text"]
-        text=text.lower()
         texts.append(text)
+        text=text.lower()
         label=row["label_boolean"]
         if label:
            label=1

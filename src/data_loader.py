@@ -38,7 +38,7 @@ def add_target_index_and_target_word_to_data(data):
             word_index=words.index(target_word)
             target.append(target_word)
             target_index.append(word_index)
-        else:
+        elif plural_word in words:
             word_index=words.index(plural_word)
             target.append(plural_word)
             target_index.append(word_index)

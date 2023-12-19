@@ -14,6 +14,7 @@ def melbert_test(texts,labels,target,target_index):
     print("Device : ",device)
     num_classes = 2  
     model = MelBERTCLassifier(num_classes=num_classes)
+    model=model.to(device)
     model.load_state_dict(torch.load("saved_model.pth"))
     model.eval()
 
